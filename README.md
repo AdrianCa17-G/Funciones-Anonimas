@@ -172,4 +172,33 @@ productos
 Resultado: Papelería (850) y Electrónica (123).
 
 ![Salida Parte 4](img/p4_scala.png)
- 
+
+ ## Parte 5: Comparar y concluir
+
+### 5.1 Scala, Java y Python frente a frente
+
+| Criterio | Scala | Java | Python |
+|---|---|---|---|
+| Sintaxis de la lambda | `p => p.precio > 100` | `p -> p.precio() > 100` | `lambda p: p.precio > 100` |
+| Cómo se declara el tipo | Se infiere del contexto; se puede escribir `(p: Producto) => ...` | Se infiere de la interfaz funcional esperada (`Predicate`, `Function`...) | No se declara (tipado dinámico) |
+| Operaciones con listas disponibles | Todas directas sobre `List`: `filter`, `map`, `exists`, `forall`, `count`, `maxBy`, `flatMap`, `foldLeft`, `scanLeft` | Vía `Stream`: `filter`, `map`, `anyMatch`, `allMatch`, `count`, `max`/`min`, `flatMap`, `reduce`. **No hay `scanLeft`** | `filter`, `map`, `any`/`all`, `max`/`min` con `key`, `reduce`, `accumulate`. **No hay `flatMap` ni `count` directos** (se usa `chain.from_iterable` y `len`) |
+| Restricción del lenguaje | Pocas; las tuplas necesitan `case (a, b) =>` | La lambda solo existe donde hay una interfaz funcional; hay que abrir `.stream()` y cerrar con `collect`/`toList`; variables capturadas deben ser *effectively final* | La lambda admite solo **una expresión** (sin sentencias); `filter` y `map` devuelven iteradores y hay que envolverlos en `list()` |
+| Legibilidad (mi opinión) | Alta: es la más corta y se lee de izquierda a derecha | Media: más larga por `.stream()`, `.collect(...)` y los `()` de los records | Media: clara en casos simples, pero `map(lambda..., filter(lambda..., x))` se lee de adentro hacia afuera |
+
+**¿En qué lenguaje fue más natural?** En Scala: las operaciones viven directamente en la lista y se encadenan sin pasos intermedios.
+
+**¿Dónde hubo más diferencias?** En **Acumulación** y **Aplanamiento**. Java no tiene `scanLeft`, así que tuve que usar un ciclo; Python no tiene `flatMap`, así que tuve que combinar `chain.from_iterable` con `map`. En Selección, Transformación y Conteo las tres versiones son casi iguales y solo cambia la sintaxis.
+
+### 5.2 Conclusión
+
+Las funciones anónimas son la pieza que hace útiles a `map`, `filter` o `foldLeft`: sin ellas habría que escribir y nombrar una función aparte para cada condición o transformación, o volver al ciclo `for` con variables que cambian. Con la lambda, la condición se escribe en el mismo lugar donde se usa (`p => p.stock < 20`) y la operación describe *qué* se quiere obtener, no *cómo* recorrer la lista. Esto lo comprobé con los tres lenguajes: los siete tipos de problemas se resolvieron con una línea o una cadena corta de operaciones, y las diferencias estuvieron en la sintaxis y en operaciones que faltan, no en la idea.
+
+Esa misma idea es la que usa Apache Spark (Parte 1, Caso 1): `lineas.filter(linea => linea.contains("ERROR"))` es una función anónima que Spark puede repartir entre los nodos de un clúster y ejecutar en paralelo. Como la función no depende de variables que cambian, el mismo código sirve para una lista de 12 productos o para millones de líneas de log.
+
+## Referencias
+- Abbasi, M. A. (2017). *Learning Apache Spark 2*. Packt Publishing.
+- Apache Spark. RDD Programming Guide: https://spark.apache.org/docs/latest/rdd-programming-guide.html
+- Oracle. Paquete `java.util.stream`: https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html
+- Documentación oficial de Scala: https://docs.scala-lang.org
+- Programación funcional en Python: https://docs.python.org/3/howto/functional.html
+- Herramientas de IA: Claude (Anthropic), usado como apoyo para estructurar el README y generar el código base de las Partes 3 y 4, que fue ejecutado y revisado por mí.
