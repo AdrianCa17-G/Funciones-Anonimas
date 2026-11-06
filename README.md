@@ -17,8 +17,8 @@
 ## 📋 Tabla de Contenidos
 1. [Parte 1: Exploración - La programación funcional en el mundo real](#parte-1-exploración---la-programación-funcional-en-el-mundo-real)
 2. [Parte 2: Entender - ¿Qué es una función anónima?](#parte-2-entender---qué-es-una-función-anónima)
-3. [Parte 3: Aplicar - Tipos de problemas con funciones anónimas](#parte-3-aplicar---tipos-de-problemas-con-funciones-anónimas)
-4. [Parte 4: Ampliar - Cuatro operaciones nuevas y combinación](#parte-4-ampliar---cuatro-operaciones-nuevas-y-combinación)
+3. [Parte 3 - Aplicar: ¿en qué problemas sirven las funciones anónimas?](#parte-3-aplicar---tipos-de-problemas-con-funciones-anónimas)
+4. [Parte 4 - Ampliar: Cuatro operaciones nuevas y combinación](#parte-4-ampliar---cuatro-operaciones-nuevas-y-combinación)
 5. [Parte 5: Comparar y Concluir](#parte-5-comparar-y-concluir)
 
 ---
@@ -122,7 +122,7 @@ Ejemplo en Scala:
 ## Parte 3 - Aplicar: ¿en qué problemas sirven las funciones anónimas?
 
 Todos los ejemplos usan la misma lista de 12 productos (`nombre, categoria, precio, stock`).
-Código completo: [Scala](scala/Parte3.scala) · [Java](java/Parte3.java) · [Python](python/parte3.py)
+Código completo: [Scala](scala/parte3.sc) · [Java](java/Parte3.java) · [Python](python/parte3.py)
 
 | Tipo | Situación real | Scala | Java (Streams) | Python |
 |---|---|---|---|---|
@@ -135,14 +135,20 @@ Código completo: [Scala](scala/Parte3.scala) · [Java](java/Parte3.java) · [Py
 | Acumulación | Contabilidad quiere el valor total del inventario y cómo crece producto a producto | `foldLeft(0.0)((acc, p) => acc + p.precio * p.stock)` / `scanLeft` | `.reduce(0.0, (acc, p) -> acc + p.precio() * p.stock(), Double::sum)` (sin `scanLeft`: ciclo) | `reduce(lambda acc, p: acc + p.precio * p.stock, productos, 0.0)` / `accumulate` |
 
 **Salida (idéntica en los tres lenguajes):**
+
+Scala:
 ![Salida Scala](img/p3_scala.png)
+
+Java:
 ![Salida Java](img/p3_java.png)
+
+Python:
 ![Salida Python](img/p3_python.png)
 
 
 ## Parte 4 - Ampliar: Cuatro operaciones nuevas y combinación
 
-Código completo: [operaciones/Parte4.scala](operaciones/Parte4.scala)
+Código completo: [operaciones/Parte4.scala](operaciones/Parte4.sc)
 
 ### 4.1 y 4.2 Fichas
 
@@ -172,6 +178,7 @@ productos
 Resultado: Papelería (850) y Electrónica (123).
 
 ![Salida Parte 4](img/p4_scala.png)
+![Salida Parte 5](img/p4_scala2.png)
 
  ## Parte 5: Comparar y concluir
 
