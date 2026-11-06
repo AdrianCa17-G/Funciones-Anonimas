@@ -178,6 +178,7 @@ productos
 Resultado: Papelería (850) y Electrónica (123).
 
 ![Salida Parte 4](img/p4_scala.png)
+![Salida Parte 5](img/p4_scala2.png)
 
  ## Parte 5: Comparar y concluir
 
